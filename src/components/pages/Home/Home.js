@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Home.css";
-import { useFetch } from "../../../custom-hooks/useFetch";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -10,20 +9,19 @@ import MeasurmentsOfSelectedCity from "./MeasurmentsOfSelectedCity.js";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCities } from "../../../redux/slices/allCities";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [selectedCity, setSelectedCity] = useState("");
   const allCity = useSelector((store) => store.getAllCities);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getAllCities());
-    return ()=>{
-      setSelectedCity("")
-    }
   }, []);
   const handleChange = (e) => {
     setSelectedCity(e.target.value);
+    navigate("/city/" + e.target.value);
   };
   if (allCity?.isLoading) {
     return <h3>Data Loading....</h3>;
@@ -48,22 +46,18 @@ const Home = () => {
               allCity?.allCities?.map(
                 (ele, index) =>
                   ele?.city?.match(/^[a-zA-Z]+$/) && (
-                     <MenuItem key={index} value={ele?.city} >
-                     <Link to={"/city/"+ele?.city} style={{color:"black",textDecoration:"none"}}>  
-                     {ele?.city}  
-                     </Link>
+                    <MenuItem key={index} value={ele?.city}>
+                      {ele?.city}
                     </MenuItem>
-                  
                   )
               )}
           </Select>
         </FormControl>
       </Box>
-      
+
       <MeasurmentsOfSelectedCity
-        // selectedCity={selectedCity !== "" && selectedCity}
+      // selectedCity={selectedCity !== "" && selectedCity}
       />
-     
     </div>
   );
 };

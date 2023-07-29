@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { useFetch } from "../../../custom-hooks/useFetch";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -22,8 +22,8 @@ const MeasurmentsOfSelectedCity = () => {
     `https://api.openaq.org/v2/latest?city=${city}`
   );
   const CustomIcon = new Icon({
-    iconUrl: "../../../utils/images/placeholder.png",
-    iconSize: [38, 38],
+    iconUrl: "https://img.icons8.com/?size=512&id=2gsR2g07AQvu&format=png",
+    iconSize: [40, 40],
   });
   if (isLoading) {
     return <h3>Data Loading....</h3>;
