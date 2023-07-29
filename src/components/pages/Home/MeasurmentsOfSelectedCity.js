@@ -117,7 +117,6 @@ const MeasurmentsOfSelectedCity = () => {
               >
                 <Popup>
                   {city}
-                  <br />
                 </Popup>
               </Marker>
             </MapContainer>
