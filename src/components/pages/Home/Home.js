@@ -10,13 +10,17 @@ import MeasurmentsOfSelectedCity from "./MeasurmentsOfSelectedCity.js";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCities } from "../../../redux/slices/allCities";
+import { Link } from "react-router-dom";
 
 const Home = () => {
-  const [selectedCity, setSelectedCity] = useState("Adana");
+  const [selectedCity, setSelectedCity] = useState("");
   const allCity = useSelector((store) => store.getAllCities);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCities());
+    return ()=>{
+      setSelectedCity("")
+    }
   }, []);
   const handleChange = (e) => {
     setSelectedCity(e.target.value);
@@ -44,17 +48,22 @@ const Home = () => {
               allCity?.allCities?.map(
                 (ele, index) =>
                   ele?.city?.match(/^[a-zA-Z]+$/) && (
-                    <MenuItem key={index} value={ele?.city}>
-                      {ele?.city}
+                     <MenuItem key={index} value={ele?.city} >
+                     <Link to={"/city/"+ele?.city} style={{color:"black",textDecoration:"none"}}>  
+                     {ele?.city}  
+                     </Link>
                     </MenuItem>
+                  
                   )
               )}
           </Select>
         </FormControl>
       </Box>
+      
       <MeasurmentsOfSelectedCity
-        selectedCity={selectedCity !== "" && selectedCity}
+        // selectedCity={selectedCity !== "" && selectedCity}
       />
+     
     </div>
   );
 };

@@ -13,10 +13,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import moment from "moment";
+import { useParams } from "react-router-dom";
 
-const MeasurmentsOfSelectedCity = ({ selectedCity }) => {
+
+const MeasurmentsOfSelectedCity = () => {
+  const {city} = useParams();
   const { isLoading, apiData, serverError } = useFetch(
-    `https://api.openaq.org/v2/latest?city=${selectedCity}`
+    `https://api.openaq.org/v2/latest?city=${city}`
   );
   const CustomIcon = new Icon({
     iconUrl: "../../../utils/images/placeholder.png",
@@ -48,11 +51,11 @@ const MeasurmentsOfSelectedCity = ({ selectedCity }) => {
                 height={300}
                 data={apiData[0]?.measurements}
               >
-                <XAxis dataKey="parameter" stroke="#8884d8" />
+              <XAxis dataKey="parameter" stroke="#1976d2" />
                 <YAxis />
                 <Tooltip />
                 <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                <Bar dataKey="value" fill="#8884d8" barSize={30} />
+                <Bar dataKey="value" fill="#1976d2" barSize={30} />
               </BarChart>
               <TableContainer component={Paper}>
                 <Table
@@ -91,7 +94,7 @@ const MeasurmentsOfSelectedCity = ({ selectedCity }) => {
               </TableContainer>
             </div>
           </div>
-            <h3 style={{marginTop:"30px"}}>Exact Location Of {selectedCity} On Map</h3>
+            <h3 style={{marginTop:"30px"}}>Exact Location Of {city} On Map</h3>
           <div className="map-container">
             <MapContainer
               center={[
@@ -113,7 +116,7 @@ const MeasurmentsOfSelectedCity = ({ selectedCity }) => {
                 ]}
               >
                 <Popup>
-                  {selectedCity}
+                  {city}
                   <br />
                 </Popup>
               </Marker>
