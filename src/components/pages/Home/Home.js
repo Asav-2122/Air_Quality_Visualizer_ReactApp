@@ -7,21 +7,24 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import MeasurmentsOfSelectedCity from "./MeasurmentsOfSelectedCity.js";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCities } from "../../../redux/slices/allCities";
 
 const Home = () => {
-  const [selectedCity, setSelectedCity] = useState("");
-  const {
-    isLoading,
-    apiData: allCity,
-    serverError,
-  } = useFetch("https://api.openaq.org/v2/cities?limit=100");
+  const [selectedCity, setSelectedCity] = useState("Adana");
+  const allCity = useSelector((store) => store.getAllCities);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllCities());
+  }, []);
   const handleChange = (e) => {
     setSelectedCity(e.target.value);
   };
-  if (isLoading) {
+  if (allCity?.isLoading) {
     return <h3>Data Loading....</h3>;
   }
-  if (serverError && isLoading === false) {
+  if (allCity.isError && allCity?.isLoading === false) {
     return <h3>Error In Data Fetching</h3>;
   }
   return (
@@ -37,8 +40,8 @@ const Home = () => {
             label="City"
             onChange={handleChange}
           >
-            {allCity?.length !== 0 &&
-              allCity.map(
+            {allCity?.allCities?.length !== 0 &&
+              allCity?.allCities?.map(
                 (ele, index) =>
                   ele?.city?.match(/^[a-zA-Z]+$/) && (
                     <MenuItem key={index} value={ele?.city}>
