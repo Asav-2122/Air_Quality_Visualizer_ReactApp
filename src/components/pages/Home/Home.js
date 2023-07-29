@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import "./Home.css";
-import { useFetch } from "../../custom-hooks/useFetch";
+import { useFetch } from "../../../custom-hooks/useFetch";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
+import MeasurmentsOfSelectedCity from "./MeasurmentsOfSelectedCity.js";
 
 const Home = () => {
   const [selectedCity, setSelectedCity] = useState("");
-  const { isLoading, apiData:allCity ,serverError } = useFetch(
-    "https://api.openaq.org/v2/cities?limit=100"
-  );
+  const {
+    isLoading,
+    apiData: allCity,
+    serverError,
+  } = useFetch("https://api.openaq.org/v2/cities?limit=100");
   const handleChange = (e) => {
     setSelectedCity(e.target.value);
   };
@@ -23,6 +26,7 @@ const Home = () => {
   }
   return (
     <div className="main-container">
+      <h4>Select City In Order to get Measurements Of Pollutants</h4>
       <Box sx={{ minWidth: 120 }}>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">City</InputLabel>
@@ -45,6 +49,9 @@ const Home = () => {
           </Select>
         </FormControl>
       </Box>
+      <MeasurmentsOfSelectedCity
+        selectedCity={selectedCity !== "" && selectedCity}
+      />
     </div>
   );
 };
