@@ -56,7 +56,6 @@ const Home = () => {
       </Box>
 
       <MeasurmentsOfSelectedCity
-      // selectedCity={selectedCity !== "" && selectedCity}
       />
     </div>
   );
