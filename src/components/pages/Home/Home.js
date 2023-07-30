@@ -55,8 +55,8 @@ const Home = () => {
         </FormControl>
       </Box>
 
-      <MeasurmentsOfSelectedCity
-      />
+    {selectedCity !== "" && <MeasurmentsOfSelectedCity/>} 
+      
     </div>
   );
 };
